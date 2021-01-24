@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+  <head>
+    <meta name="robots" content="noindex" /> <!--  Don't want it indexed by Google  -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>England Coronavirus Interactive Map</title>
+    <!--  Favicon  -->
+    <link rel="icon" type="image/png" href="images/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="images/favicon-16x16.png" sizes="16x16" />
+    <!--  CSS reset  -->
+    <link rel="stylesheet" href="css/reset.css">
+    <!--  Fonts  -->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <!--  JQuery  -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!--  Bootstrap  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spinkit/2.0.1/spinkit.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+    <!--  Leaflet.js css and js  -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script type="text/javascript" src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <!--  UIKit CSS  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.5.17/dist/css/uikit.min.css" />
+    <!--  UIKit JS  -->
+    <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.17/dist/js/uikit.min.js"></script>
+    <!-- FusionChart JS -->
+    <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/fusioncharts.js"></script>
+    <script type="text/javascript" src="https://cdn.fusioncharts.com/fusioncharts/latest/themes/fusioncharts.theme.fusion.js"></script>
+    <!-- Moment.js -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <!-- Tooltipster.js -->
+    <script type="text/javascript" src="js/tooltipster.min.js"></script>
+    <link rel="stylesheet" href="css/tooltipster.css">
+    <!-- Text marker animation -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery.marker-animation/build/index.min.js"></script>
+    <!-- Main css file -->
+    <link rel="stylesheet" href="css/main.css">
+  </head>
+
+  <body>
+
+  <div class="d-md-flex h-md-100 align-items-center"> <!-- Main container -->
+
+  <!-- Left hand side container -->
+  <div class="col-md-6 p-0 bg-indigo h-md-100">
+		<div class="text-white d-md-flex align-items-center h-100 text-center justify-content-center">
+      <div class="map-container">
+          <div class="sk-pulse sk-pulse-map" id="loader"></div> <!-- Preloader for map -->
+          <div class="counter" id="counter"></div> <!-- Preloader for map -->
+          <div id="map"></div> <!-- Leaflet.js map -->
+      </div> <!-- End map-container -->
+		</div>
+	</div>
+
+  <!-- Right hand side container -->
+	<div class="col-md-6 p-0 bg-white h-md-100 right-panel-container">
+		<div class="d-md-flex">
+      <div class="rightWrapper">
+          <p >Coronavirus Regional Dashboard</p>
+          <p>An interactive visualisation of worst effected areas.</p>
+          <p>Data fetched live from <a target="_blank" href="https://coronavirus.data.gov.uk/details/developers-guide">coronavirus.data.gov.uk</a> api.</p>
+
+          <div class="infoPanel">
+          		<p class="regionSelectedPrompt">Click on a region on the map to get more in-depth information.</p>
+              <p class="regionSelected"></p>
+          		<p class="areaCode"></p>
+
+              <div class="statsContainer">
+                  <p class="placeholder placeholder2"></p>
+                  <p class="placeholder placeholder0"></p>
+                  <p class="placeholder placeholder3"></p>
+                  <p class="placeholder placeholder1"></p>
+                  <p class="placeholder placeholder4"></p>
+                  <p class="placeholder placeholder5"></p>
+              </div> <!-- End statsContainer -->
+
+          		<!-- UIKit Grid Container -->
+              <div class="chartSection">
+                  <div class="sectionHeadingContainer">
+                      <p class="sectionHeading historicalData"></p>
+                      <button class="graphToggle noselect" type="button" name="button" onclick="updateDOMHelper()"></button>
+                  </div> <!-- End sectionHeadingContainer -->
+
+              		<div class="uk-child-width-1-1@s uk-child-width-1-2@m" uk-grid="masonry: false">
+              		     <div>
+              		       <div class="uk-card">
+              					 		<div id="chart-cases"></div>
+                            <div class="watermarkHack"></div>
+              					 </div> <!-- End uk-card -->
+              		     </div>
+              		     <div>
+              		       <div class="uk-card">
+              					 		<div id="chart-deaths"></div>
+                              <div class="watermarkHack"></div>
+              					 </div> <!-- End uk-card -->
+              		     </div>
+              	   </div> <!-- End uk-child-width-1-* -->
+              </div> <!-- End chartSection -->
+
+              <div class="casesByAgeContainer">
+                	<p class="sectionHeading casesByAge"></p>
+                	<div id="chart-age"></div>
+                	<div class="watermarkHack"></div>
+              </div> <!-- End casesByAgeContainer -->
+
+              <div class="casesByAgeContainer">
+                	<p class="sectionHeading bedsOccupied"></p>
+                  <div class="capacityContainer">
+                      <p class="capacity noselect"></p>
+                  </div> <!-- End capacityContainer -->
+                	<div id="chart-beds"></div>
+                	<div class="watermarkHack"></div>
+              </div> <!-- End casesByAgeContainer -->
+
+          </div> <!-- End infoPanel -->
+      </div> <!-- End rightWrapper -->
+		</div> <!-- End d-md-flex -->
+	</div> <!-- End right-panel-container -->
+</div> <!-- End Main container -->
+
+<script src="js/londonRegionGeoJson.json"></script> <!-- GeoJson file for map -->
+<script src="js/drawMap.js"></script> <!-- Main file for first set of ajax calls and leaflet map -->
+<script src="js/updateDOM.js"></script> <!-- Main file for when the user clicks on a part of the map -->
+<script type="text/javascript">
+/*
+Run function that draws the leaflet.js map to the DOM
+ */
+drawLeafletMap(dict);
+</script>
+
+
+<script type="text/javascript" src="js/charts.js"></script> <!-- Main file for additional charts using fusioncharts.js -->
+<script type="text/javascript" src="js/misc.js"></script> <!-- File that contains some helper functions -->
+<script type="text/javascript" src="js/tooltips.js"></script> <!-- Tooltip initialisation -->
+
+</body>
+</html>
