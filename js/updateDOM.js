@@ -63,7 +63,7 @@ function updateDOM(areaCode, days) {
 
 					document.getElementsByClassName("areaCode")[0].innerHTML = "(" + data.data[0].areaCode + ")"; //update areacode in DOM
 					//update DOM with new cases
-					document.getElementsByClassName("placeholder0")[0].innerHTML = "<span class=\"detailNumbers\">+" + numberWithCommas(data.data[0].newCasesByPublishDate) + "</span> <span class=\"restOfText\">new cases today</span>";
+					document.getElementsByClassName("placeholder0")[0].innerHTML = "<span class=\"detailNumbers\">+" + numberWithCommas(data.data[0].newCasesByPublishDate) + "</span> <span class=\"restOfText\">new cases in this area today</span>";
 					//update DOM with new cases per 100k
           document.getElementsByClassName("placeholder1")[0].innerHTML = "<span class=\"detailNumbers\">" + numberWithCommas(data.data[0].cumCasesByPublishDateRate) + "</span> <i class=\"fas fa-info-circle newCasesByPublishDateInfo tooltipA\" title=\"test\"></i> <span class=\"restOfText\">cases per 100k population</span>";
 					//update DOM all time cases

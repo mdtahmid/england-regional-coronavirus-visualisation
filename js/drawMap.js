@@ -132,6 +132,7 @@ async function drawLeafletMap(dict) {
 			map.fitBounds(e.target.getBounds()); //zoom in on the map
       // $('#loader2').show();
 			// updateDOM(e.target.feature.properties.LAD13CD, getColor(e.target.feature.properties.cases), 21);
+			document.getElementsByClassName("right-panel-container")[0].scrollTop = 0; //scroll to top
 			updateDOM(e.target.feature.properties.LAD13CD, 21); //call the updateDOM method
 			getMVBedsInfo(); //call the getMVBedsInfo method
 		}
