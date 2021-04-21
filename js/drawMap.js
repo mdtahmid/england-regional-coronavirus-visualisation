@@ -9,7 +9,7 @@ async function ajaxCall() {
 		for(var i=0;i<regionCodes.length;i++){ //loop through regions array
 	      await $.ajax({ //get data for each region
 	          type: "GET",
-						url: 'https://api.coronavirus.data.gov.uk/v1/data?filters=areaCode='+regionCodes[i]+'&structure={"areaCode":"areaCode","cumCasesByPublishDateRate":"cumCasesByPublishDateRate","areaName":"areaName"}',
+						url: 'https://api.coronavirus.data.gov.uk/v1/data?filters=areaType=region;areaCode='+regionCodes[i]+'&structure={"areaCode":"areaCode","cumCasesByPublishDateRate":"cumCasesByPublishDateRate","areaName":"areaName"}',
 	          dataType: "json",
 	          success: function(data) {
 								console.log(data.data[0]);
@@ -134,7 +134,7 @@ async function drawLeafletMap(dict) {
 			// updateDOM(e.target.feature.properties.LAD13CD, getColor(e.target.feature.properties.cases), 21);
 			document.getElementsByClassName("right-panel-container")[0].scrollTop = 0; //scroll to top
 			updateDOM(e.target.feature.properties.LAD13CD, 21); //call the updateDOM method
-			getMVBedsInfo(); //call the getMVBedsInfo method
+			getMVBedsInfo();
 		}
 
 		function onEachFeature(feature, layer) {
