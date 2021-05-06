@@ -147,10 +147,10 @@ button:focus {outline:0;}
   background-color: #fff;
   position: absolute;
   /* border: 0; */
-  bottom: 0;
+  bottom: 11px;
   left: 0;
-  height: 15px;
-  width: 86px;
+  height: 16px;
+  width: 155px;
 }
 .uk-grid {
   padding: 30px 0px;
