@@ -23,6 +23,7 @@ function updateDOM(areaCode, days) {
 					var maleCases = [];
 					var femaleCases = [];
           var howmanydaysdata = days; //variable to store how many days worth of data to get (for chart)
+					var deathsVar; //temp deaths variable
 
 					for (var i = 0; i < howmanydaysdata; i++) { //loops through x days worth of data
 						deaths.push(data.data[i].newDeaths28DaysByPublishDate); //adds all deaths to array
@@ -69,7 +70,12 @@ function updateDOM(areaCode, days) {
 					//update DOM all time cases
           document.getElementsByClassName("placeholder2")[0].innerHTML = "<span class=\"detailNumbers\">" + numberWithCommas(data.data[0].cumCasesByPublishDate) + "</span> <span class=\"restOfText\">tested positive in this area (all-time)</span>";
 					//update DOM with new deaths
-	        document.getElementsByClassName("placeholder3")[0].innerHTML = "<span class=\"detailNumbers\">+" + numberWithCommas(data.data[0].newDeaths28DaysByPublishDate) + "</span> <span class=\"restOfText\">new deaths in this area today</span>";
+					if (data.data[0].newDeaths28DaysByPublishDate == null) {
+						deathsVar = 0;
+					} else {
+						deathsVar = data.data[0].newDeaths28DaysByPublishDate;
+					}
+	        document.getElementsByClassName("placeholder3")[0].innerHTML = "<span class=\"detailNumbers\">+" + deathsVar + "</span> <span class=\"restOfText\">new deaths in this area today</span>";
 					//update DOM with cumulative deaths
           document.getElementsByClassName("placeholder4")[0].innerHTML = "<span class=\"detailNumbers\">" + numberWithCommas(data.data[0].cumDeaths28DaysByPublishDate) + "</span> <i class=\"fas fa-info-circle newCasesByPublishDateInfo tooltipB\"></i> <span class=\"restOfText\">cumulative deaths within 28 days of positive test</span>";
 					//update DOM with cumulative deaths per 100k
